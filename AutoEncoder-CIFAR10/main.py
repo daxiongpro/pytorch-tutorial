@@ -7,6 +7,7 @@
 __package__ = 'AutoEncoder-CIFAR10'
 
 import cv2
+import torch
 import torchvision
 from tqdm import tqdm
 from .model import *
@@ -49,11 +50,11 @@ def train():
 
         if (epoch + 1) % 1 == 0:
             # Save the model checkpoint
-            torch.save(model.state_dict(), 'AENet-CIFAR10.ckpt')
+            torch.save(model.state_dict(), r'../parameter/AENet-CIFAR10.ckpt')
 
 def test():
     # Test the model
-    model.load_state_dict(torch.load('AENet-CIFAR10.ckpt'))
+    model.load_state_dict(torch.load(r'../parameter/AENet-CIFAR10.ckpt'))
     model.eval()
     with torch.no_grad():
 
@@ -75,5 +76,5 @@ def test():
         cv2.waitKey(0)
 
 if __name__ == '__main__':
-    train()
+    # train()
     test()
