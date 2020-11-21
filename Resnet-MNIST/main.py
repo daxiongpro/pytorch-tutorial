@@ -22,7 +22,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 # Hyper-parameters
-num_epochs = 10
+num_epochs = 5
 
 learning_rate = 0.001
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
@@ -100,5 +100,5 @@ def test():
         print('Accuracy of the model on the test images: {} %'.format(100 * correct / total))
 
 if __name__ == '__main__':
-    # train()
+    train()
     test()
