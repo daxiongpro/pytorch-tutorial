@@ -26,8 +26,6 @@ model = AutoEncoderNet().to(device)
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-
-
 def train():
     # Train the model
     # model.load_state_dict(torch.load('resnet.ckpt'))

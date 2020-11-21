@@ -2,6 +2,7 @@
 *.zip
 data/
 .ipynb_checkpoints
-
+*.ckpt
 .idea/
 Resnet-MNIST/__pycache__/
+/parameter/
