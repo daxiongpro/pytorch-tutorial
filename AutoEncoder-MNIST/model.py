@@ -19,7 +19,8 @@ class AutoEncoderNet(nn.Module):
         # self.bn = nn.BatchNorm1d()
 
     def forward(self, x):
-        out = x.view(x.size(0), -1)
+        batch=x.size(0)
+        out = x.view(batch, -1)
         out = self.fc1(out)
         out = self.relu(out)
         out = self.fc2(out)
@@ -31,7 +32,7 @@ class AutoEncoderNet(nn.Module):
         out = self.fc5(out)
         out = self.relu(out)
         out = self.fc6(out)
-        out = out.reshape(100, 1, 28, 28)
+        out = out.reshape(batch, 1, 28, 28)
         return out
 
 class AutoEncoderNet2(nn.Module):

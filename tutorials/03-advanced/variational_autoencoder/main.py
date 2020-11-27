@@ -24,7 +24,7 @@ batch_size = 128
 learning_rate = 1e-3
 
 # MNIST dataset
-dataset = torchvision.datasets.MNIST(root='../../data',
+dataset = torchvision.datasets.MNIST(root='../../../data',
                                      train=True,
                                      transform=transforms.ToTensor(),
                                      download=True)

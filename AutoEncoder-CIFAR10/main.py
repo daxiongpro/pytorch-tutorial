@@ -1,9 +1,9 @@
 # 解决相对导入的问题
-'''
+"""
 相对引用，在别的模块调用时不会出错
 相对引用，在本模块运行时会报错
 解决方法：加入下面的一句话
-'''
+"""
 __package__ = 'AutoEncoder-CIFAR10'
 
 import cv2
@@ -26,6 +26,7 @@ model = AutoEncoderNet().to(device)
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
 
 def train():
     # Train the model
@@ -51,6 +52,7 @@ def train():
         if (epoch + 1) % 1 == 0:
             # Save the model checkpoint
             torch.save(model.state_dict(), r'../parameter/AENet-CIFAR10.ckpt')
+
 
 def test():
     # Test the model

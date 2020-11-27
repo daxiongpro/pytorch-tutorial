@@ -55,7 +55,6 @@ def train():
             torch.save(model.state_dict(), 'AENet.ckpt')
 
 
-
 def test():
     # Test the model
     model.load_state_dict(torch.load('AENet.ckpt'))
