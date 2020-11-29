@@ -17,8 +17,8 @@ class Dataset:
                                           transform=dataset_transform)
 
             # num_workers = 2:使用2个线程读取数据
-            self.train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=_batch_size, shuffle=True, num_workers=5)
-            self.test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=_batch_size, shuffle=False, num_workers=5)
+            self.train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=_batch_size, shuffle=True)
+            self.test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=_batch_size, shuffle=False)
 
         elif dataset == 'cifar10':
             data_transform = transforms.Compose([

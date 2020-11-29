@@ -74,7 +74,11 @@ class DigitCaps(nn.Module):
         self.in_cap_length = in_cap_length
         self.out_cap_length = out_cap_length
 
-        self.W = nn.Parameter(torch.randn(in_capsule_num, out_capsule_num, out_cap_length, in_cap_length)).cuda()
+
+        if USE_CUDA:
+            self.W = nn.Parameter(torch.randn(in_capsule_num, out_capsule_num, out_cap_length, in_cap_length, device=torch.device('cuda')))
+        else:
+            self.W = nn.Parameter(torch.randn(in_capsule_num, out_capsule_num, out_cap_length, in_cap_length))
 
     def forward(self, x):
         '''

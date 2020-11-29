@@ -12,7 +12,7 @@ from .data_loader import Dataset
 from tqdm import tqdm
 
 USE_CUDA = True if torch.cuda.is_available() else False
-BATCH_SIZE = 80
+BATCH_SIZE = 100
 N_EPOCHS = 5
 LEARNING_RATE = 0.01
 MOMENTUM = 0.9
@@ -109,7 +109,7 @@ def train(model, optimizer, train_loader, epoch):
                 # correct / float(BATCH_SIZE),
                 train_loss / float(BATCH_SIZE)
                 ))
-    tqdm.write('Epoch: [{}/{}], train loss: {:.6f}'.format(epoch, N_EPOCHS,total_loss / len(train_loader.dataset)))
+    tqdm.write('Epoch: [{}/{}], train loss: {:.6f}'.format(epoch, N_EPOCHS, total_loss / len(train_loader.dataset)))
 
 
 def test(capsule_net, test_loader, epoch):
@@ -125,7 +125,7 @@ def test(capsule_net, test_loader, epoch):
             data, target = data.cuda(), target.cuda()
 
         output = capsule_net(data)
-        loss = capsule_net.marigin_loss(output, target)
+        loss = capsule_net.margin_loss(output, target)
 
         test_loss += loss.item()
 
@@ -144,12 +144,13 @@ if __name__ == '__main__':
     capsule_net = torch.nn.DataParallel(capsule_net, device_ids=[0])
     if USE_CUDA:
         capsule_net = capsule_net.cuda()
-        '''
-        调用model里的函数 继承的函数可以直接调用 
-        例如 model.state_dict() ,model.load_state_dict(torch.load(model_path)......不受影响。
-        但是自己写的函数 要加上.module才行  model.module.forward_getfeature(x)。
-        自己写的函数 不可以并行运算 ，只能在主gpu中运算。
-        '''
+
+    '''
+    调用model里的函数 继承的函数可以直接调用 
+    例如 model.state_dict() ,model.load_state_dict(torch.load(model_path)......不受影响。
+    但是自己写的函数 要加上.module才行  model.module.forward_getfeature(x)。
+    自己写的函数 不可以并行运算 ，只能在主gpu中运算。
+    '''
     capsule_net = capsule_net.module
 
     optimizer = torch.optim.Adam(capsule_net.parameters())
