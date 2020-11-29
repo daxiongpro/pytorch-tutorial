@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from torchvision import datasets, transforms
-from .capsnet import CapsNet
+from .model import CapsNet
 from .data_loader import Dataset
 from tqdm import tqdm
 
