@@ -1,4 +1,3 @@
-
 __package__ = 'CapsuleNet-MNIST'
 
 import numpy as np
@@ -12,7 +11,7 @@ from .data_loader import Dataset
 from tqdm import tqdm
 
 USE_CUDA = True if torch.cuda.is_available() else False
-BATCH_SIZE = 100
+BATCH_SIZE = 250
 N_EPOCHS = 5
 LEARNING_RATE = 0.01
 MOMENTUM = 0.9
@@ -29,19 +28,23 @@ class Config:
             self.cnn_in_channels = 1
             self.cnn_out_channels = 256
             self.cnn_kernel_size = 9
+            self.cnn_stride = 1
+            self.cnn_padding = 0
 
             # Primary Capsule (pc)
             self.pc_capsule_length = 8
             self.pc_in_channels = 256
             self.pc_out_channels = 32
-            self.pc_kernel_size = 9
             self.pc_capsule_num = 32 * 6 * 6
+            self.pc_kernel_size = 9
+            self.pc_stride = 2
+            self.pc_padding = 0
 
             # Digit Capsule (dc)
-            self.dc_out_caps_num = 10
-            self.dc_in_caps_num = 32 * 6 * 6
-            self.dc_in_caps_length = 8
-            self.dc_out_caps_length = 16
+            self.dc_in_capsule_num = 32 * 6 * 6
+            self.dc_out_capsule_num = 10
+            self.dc_in_capsule_length = 8
+            self.dc_out_capsule_length = 16
 
             # Decoder
             self.input_width = 28
