@@ -76,6 +76,7 @@ class Config:
 
 def train(model, optimizer, train_loader, epoch):
     capsule_net = model
+    # capsule_net.load_state_dict(torch.load('./CapsNet.ckpt'))
     capsule_net.train()  # 将本层及子层的training设定为True
     n_batch = len(list(enumerate(train_loader)))
     total_loss = 0
@@ -113,23 +114,29 @@ def train(model, optimizer, train_loader, epoch):
 
 
 def test(capsule_net, test_loader, epoch):
+
+    # eval（）时，框架会自动把BN和DropOut固定住，不会取平均，而是用训练好的值，不然的话，一旦test的batch_size过小，很容易就会被BN层导致生成图片颜色失真极大
     capsule_net.eval()
+
     test_loss = 0
     correct = 0
     for batch_id, (data, target) in enumerate(test_loader):
 
-        target = torch.sparse.torch.eye(10).index_select(dim=0, index=target)
+        # torch.eye(10)为了生成对角线全1，其余部分全0的二维数组
+        target = torch.sparse.torch.eye(10).index_select(dim=0, index=target) #(B,10)
         data, target = Variable(data), Variable(target)
 
         if USE_CUDA:
             data, target = data.cuda(), target.cuda()
 
-        output = capsule_net(data)
+        output = capsule_net(data)  # [100, 10, 16]
         loss = capsule_net.margin_loss(output, target)
+        output = torch.sqrt((output ** 2).sum(dim=2))  # (B, 10, 1)
+        correct += sum(np.argmax(output.data.cpu().numpy(), 1) == np.argmax(target.data.cpu().numpy(), 1))
 
         test_loss += loss.item()
 
-    tqdm.write("Epoch: [{}/{}], loss: {:.6f}".format(epoch, N_EPOCHS, test_loss / len(test_loader)))
+    tqdm.write("Epoch: [{}/{}], accuracy: {}, loss: {:.6f}".format(epoch, N_EPOCHS, correct / len(test_loader.dataset), test_loss / len(test_loader)))
 
 
 if __name__ == '__main__':
@@ -158,3 +165,5 @@ if __name__ == '__main__':
     for e in range(1, N_EPOCHS + 1):
         train(capsule_net, optimizer, mnist.train_loader, e)
         test(capsule_net, mnist.test_loader, e)
+
+    # test(capsule_net, mnist.test_loader, 1)
