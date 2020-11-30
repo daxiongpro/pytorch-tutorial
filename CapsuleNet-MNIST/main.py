@@ -1,5 +1,10 @@
 __package__ = 'CapsuleNet-MNIST'
-
+'''
+本项目是Hinton2017年版的Capsule Network
+只使用了margin loss（分类损失）
+没有使用重建损失，效果达到
+没有进行重建的实验
+'''
 import numpy as np
 import torch
 import torch.nn as nn
