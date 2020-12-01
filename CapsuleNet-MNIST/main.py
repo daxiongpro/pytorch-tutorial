@@ -16,8 +16,8 @@ from .data_loader import Dataset
 from tqdm import tqdm
 
 USE_CUDA = True if torch.cuda.is_available() else False
-BATCH_SIZE = 250
-N_EPOCHS = 5
+BATCH_SIZE = 100
+N_EPOCHS = 10
 LEARNING_RATE = 0.01
 MOMENTUM = 0.9
 
@@ -84,7 +84,7 @@ class Config:
 
 def train(model, optimizer, train_loader, epoch):
     capsule_net = model
-    # capsule_net.load_state_dict(torch.load('./CapsNet.ckpt'))
+    # capsule_net.load_state_dict(torch.load('../parameter/CapsNet.ckpt'))
     capsule_net.train()  # 将本层及子层的training设定为True
     n_batch = len(list(enumerate(train_loader)))
     total_loss = 0
@@ -106,7 +106,7 @@ def train(model, optimizer, train_loader, epoch):
         total_loss += train_loss
         if (epoch + 1) % 1 == 0:
             # Save the model checkpoint
-            torch.save(model.state_dict(), './CapsNet.ckpt')
+            torch.save(model.state_dict(), '../parameter/CapsNet.ckpt')
 
         if batch_id % 100 == 0:
             # tqdm.write("Epoch: [{}/{}], Batch: [{}/{}], train accuracy: {:.6f}, loss: {:.6f}".format(

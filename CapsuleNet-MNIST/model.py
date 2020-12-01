@@ -198,12 +198,12 @@ class CapsNet(nn.Module):
             self.conv_layer = ConvLayer(config.cnn_in_channels, config.cnn_out_channels, config.cnn_kernel_size)
             self.primary_capsules = PrimaryCaps(config.pc_capsule_length, config.pc_in_channels, config.pc_out_channels,config.pc_capsule_num, config.pc_kernel_size)
             self.digit_capsules = DigitCaps(config.dc_in_capsule_num, config.dc_out_capsule_num, config.dc_in_capsule_length, config.dc_out_capsule_length)
-            self.decoder = Decoder(config.input_width, config.input_height, config.cnn_in_channels)
+            # self.decoder = Decoder(config.input_width, config.input_height, config.cnn_in_channels)
         else:
             self.conv_layer = ConvLayer()
             self.primary_capsules = PrimaryCaps()
             self.digit_capsules = DigitCaps()
-            self.decoder = Decoder()
+            # self.decoder = Decoder()
 
         self.mse_loss = nn.MSELoss()
 
